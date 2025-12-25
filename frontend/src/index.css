@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/700.css";
+
+/* CORWatch x402 Design System - Infra-grade Web3 Observability */
+
+@layer base {
+  :root {
+    --background: 220 20% 4%;
+    --foreground: 210 20% 92%;
+
+    --card: 220 18% 7%;
+    --card-foreground: 210 20% 92%;
+
+    --popover: 220 18% 8%;
+    --popover-foreground: 210 20% 92%;
+
+    --primary: 185 80% 50%;
+    --primary-foreground: 220 20% 4%;
+
+    --secondary: 220 15% 12%;
+    --secondary-foreground: 210 20% 85%;
+
+    --muted: 220 15% 15%;
+    --muted-foreground: 215 15% 55%;
+
+    --accent: 160 70% 45%;
+    --accent-foreground: 220 20% 4%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 210 20% 98%;
+
+    --warning: 35 90% 55%;
+    --warning-foreground: 220 20% 4%;
+
+    --success: 145 65% 45%;
+    --success-foreground: 220 20% 4%;
+
+    --border: 220 15% 18%;
+    --input: 220 15% 12%;
+    --ring: 185 80% 50%;
+
+    --radius: 0.5rem;
+
+    /* Custom tokens */
+    --glow-primary: 0 0 20px hsl(185 80% 50% / 0.3);
+    --glow-accent: 0 0 20px hsl(160 70% 45% / 0.3);
+    --glow-warning: 0 0 15px hsl(35 90% 55% / 0.25);
+    
+    --gradient-primary: linear-gradient(135deg, hsl(185 80% 50%), hsl(160 70% 45%));
+    --gradient-card: linear-gradient(180deg, hsl(220 18% 9%), hsl(220 18% 6%));
+    --gradient-hero: linear-gradient(180deg, hsl(220 20% 6%), hsl(220 20% 3%));
+
+    --sidebar-background: 220 18% 6%;
+    --sidebar-foreground: 210 20% 85%;
+    --sidebar-primary: 185 80% 50%;
+    --sidebar-primary-foreground: 220 20% 4%;
+    --sidebar-accent: 220 15% 12%;
+    --sidebar-accent-foreground: 210 20% 85%;
+    --sidebar-border: 220 15% 15%;
+    --sidebar-ring: 185 80% 50%;
+  }
+
+  .dark {
+    --background: 220 20% 4%;
+    --foreground: 210 20% 92%;
+    --card: 220 18% 7%;
+    --card-foreground: 210 20% 92%;
+    --popover: 220 18% 8%;
+    --popover-foreground: 210 20% 92%;
+    --primary: 185 80% 50%;
+    --primary-foreground: 220 20% 4%;
+    --secondary: 220 15% 12%;
+    --secondary-foreground: 210 20% 85%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 215 15% 55%;
+    --accent: 160 70% 45%;
+    --accent-foreground: 220 20% 4%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 15% 18%;
+    --input: 220 15% 12%;
+    --ring: 185 80% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply dark;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  .font-mono {
+    font-family: "JetBrains Mono", monospace;
+  }
+}
+
+@layer components {
+  .card-glow {
+    box-shadow: var(--glow-primary);
+  }
+
+  .card-glow-accent {
+    box-shadow: var(--glow-accent);
+  }
+
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .locked-overlay {
+    @apply relative overflow-hidden;
+  }
+
+  .locked-overlay::before {
+    content: "";
+    @apply absolute inset-0 bg-background/80 backdrop-blur-sm z-10;
+  }
+
+  .grid-pattern {
+    background-image: 
+      linear-gradient(hsl(var(--border) / 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .stat-card {
+    @apply bg-card border border-border rounded-lg p-4 transition-all duration-200;
+  }
+
+  .stat-card:hover {
+    @apply border-primary/50;
+    box-shadow: var(--glow-primary);
+  }
+}
+
+@layer utilities {
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 10px hsl(185 80% 50% / 0.2);
+    }
+    to {
+      box-shadow: 0 0 25px hsl(185 80% 50% / 0.4);
+    }
+  }
+}
