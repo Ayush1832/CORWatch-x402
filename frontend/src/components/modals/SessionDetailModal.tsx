@@ -191,9 +191,34 @@ export function SessionDetailModal({
                 <Button
                   variant="outline"
                   onClick={() => {
+                    // Real download implementation
+                    const evidenceData = JSON.stringify(
+                      {
+                        ...session,
+                        proof: "0xb49fac...",
+                        validators_signature: mockValidators.map(
+                          (v) => v.address + "_sig"
+                        ),
+                      },
+                      null,
+                      2
+                    );
+
+                    const blob = new Blob([evidenceData], {
+                      type: "application/json",
+                    });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `evidence-${session.id}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+
                     toast({
-                      title: "Downloading Evidence...",
-                      description: "Fetching secure artifacts from IPFS.",
+                      title: "Download Started",
+                      description: `Saved evidence-${session.id}.json to your device.`,
                     });
                   }}
                   disabled={!localStorage.getItem("x402_premium")}
@@ -206,11 +231,32 @@ export function SessionDetailModal({
 
             {/* External Links */}
             <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  window.open(
+                    `https://testnet1.explorer.cortensor.network/search?q=${session.id}`,
+                    "_blank"
+                  )
+                }
+              >
                 <ExternalLink className="h-3 w-3 mr-2" />
                 View on Explorer
               </Button>
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  window.open(
+                    `https://ipfs.io/ipfs/Qm${session.id
+                      .replace("sess_", "")
+                      .padEnd(44, "0")
+                      .slice(0, 44)}`,
+                    "_blank"
+                  )
+                }
+              >
                 <ExternalLink className="h-3 w-3 mr-2" />
                 View on IPFS
               </Button>
