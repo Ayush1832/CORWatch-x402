@@ -11,12 +11,16 @@ export function Footer() {
             <span className="font-mono font-semibold">CORWatch</span>
             <Badge variant="premium">x402</Badge>
           </div>
-          
+
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">Docs</a>
-            <a href="#" className="hover:text-foreground transition-colors">API</a>
-            <a href="#" className="hover:text-foreground transition-colors">GitHub</a>
-            <a href="#" className="hover:text-foreground transition-colors">Discord</a>
+            <a
+              href="https://github.com/Ayush1832/CORWatch-x402"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              GitHub
+            </a>
           </div>
 
           <p className="text-sm text-muted-foreground">
