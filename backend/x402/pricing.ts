@@ -1,5 +1,5 @@
 export const PRICING = {
-  VALIDATE_CALL: 0.01, // $0.01 equivalent
+  VALIDATE_CALL: 0.001, // $0.001 equivalent or ETH
   ARTIFACT_DOWNLOAD: 0.05,
   REALTIME_METRICS: 0.10 // Subscription or one-time access
 };

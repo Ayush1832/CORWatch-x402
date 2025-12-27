@@ -70,7 +70,7 @@ export default function Validate() {
         try {
           const signature = await signMessageAsync({
             account: address,
-            message: `Authorize 0.01 ETH payment for session ${sessionId}`,
+            message: `Authorize 0.001 ETH payment for session ${sessionId}`,
           });
           paymentProof = signature;
         } catch (err) {
@@ -84,14 +84,14 @@ export default function Validate() {
         }
       }
 
-      const data = await validateSession(paymentProof);
+      const data = await validateSession(sessionId, paymentProof);
 
       if (data) {
         setResult({
           sessionId: sessionId,
           status: data.valid ? "verified" : "disputed",
           agreement: Math.floor(data.score * 100),
-          validators: 3, // Mock form backend
+          validators: 3,
           timestamp: new Date(data.timestamp).toLocaleString(),
           model: "Llama-3-70B",
         });

@@ -22,7 +22,7 @@ export interface ValidationResponse {
     details?: string;
 }
 
-export async function validateSession(paymentProof: string | null): Promise<ValidationResponse> {
+export async function validateSession(sessionId: string, paymentProof: string | null): Promise<ValidationResponse> {
     const headers: HeadersInit = {
         'Content-Type': 'application/json'
     };
@@ -33,7 +33,8 @@ export async function validateSession(paymentProof: string | null): Promise<Vali
 
     const response = await fetch(`${API_BASE_URL}/validate`, {
         method: 'POST',
-        headers
+        headers,
+        body: JSON.stringify({ sessionId })
     });
     
     if (response.status === 402) {

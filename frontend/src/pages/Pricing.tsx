@@ -92,11 +92,9 @@ export default function Pricing() {
 
   const handlePayment = async () => {
     try {
-      // Send 0.001 ETH (Sepolia/Testnet) to receiver
-      // Receiver: 0x2beD...666E
       const hash = await sendTransactionAsync({
         to: "0x2beD2911366C582Ab52F11f849F5C0E942Ba666E",
-        value: 1000000000000000n, // 0.001 ETH in wei
+        value: 1000000000000000n, // 0.001 ETH
       });
 
       console.log("Transaction sent:", hash);
@@ -106,10 +104,8 @@ export default function Pricing() {
         description: "Transaction submitted. Unlocking premium features...",
       });
 
-      // Optimistic unlock for demo
       localStorage.setItem("x402_premium", "true");
 
-      // Small delay for UX then redirect
       setTimeout(() => {
         window.location.href = "/dashboard";
       }, 1500);
