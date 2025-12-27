@@ -5,6 +5,7 @@ import { Activity, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAppKit } from "@reown/appkit/react";
+import { useAccount } from "wagmi";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -18,6 +19,15 @@ export function Header() {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { open } = useAppKit();
+  const { address, isConnected } = useAccount();
+
+  const handleConnect = () => {
+    if (isConnected) {
+      open();
+    } else {
+      open({ view: "Connect" });
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -52,8 +62,10 @@ export function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="outline" size="sm" onClick={() => open()}>
-            Connect Wallet
+          <Button variant="outline" size="sm" onClick={handleConnect}>
+            {isConnected && address
+              ? `${address.slice(0, 6)}...${address.slice(-4)}`
+              : "Connect Wallet"}
           </Button>
         </div>
 
@@ -93,9 +105,11 @@ export function Header() {
               variant="outline"
               size="sm"
               className="mt-2"
-              onClick={() => open()}
+              onClick={handleConnect}
             >
-              Connect Wallet
+              {isConnected && address
+                ? `${address.slice(0, 6)}...${address.slice(-4)}`
+                : "Connect Wallet"}
             </Button>
           </nav>
         </div>

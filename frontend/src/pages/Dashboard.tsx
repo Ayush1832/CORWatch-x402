@@ -112,7 +112,16 @@ export default function Dashboard() {
   const [paymentFeature, setPaymentFeature] = useState("");
   const { data: metrics } = useDashboardMetrics();
 
+  // Hackathon: Check for premium unlock in localStorage
+  const [isPremium] = useState(() => !!localStorage.getItem("x402_premium"));
+
   const handleUnlock = (feature: string) => {
+    // If not premium, redirect to pricing to "buy" the upgrade
+    if (!isPremium) {
+      window.location.href = "/pricing";
+      return;
+    }
+    // If already premium (or locking specific feature), show modal
     setPaymentFeature(feature);
     setPaymentOpen(true);
   };
@@ -298,13 +307,13 @@ export default function Dashboard() {
                 title="Top Validator Score"
                 value="98.7"
                 icon={TrendingUp}
-                locked
+                locked={!isPremium}
               />
               <StatCard
                 title="Network Efficiency"
                 value="94.2%"
                 icon={Zap}
-                locked
+                locked={!isPremium}
               />
               <StatCard
                 title="Total Sessions"
@@ -318,12 +327,15 @@ export default function Dashboard() {
 
             <div className="grid lg:grid-cols-2 gap-6">
               {/* Validator Leaderboard (Locked) */}
-              <ValidatorLeaderboard validators={validators} locked />
+              <ValidatorLeaderboard
+                validators={validators}
+                locked={!isPremium}
+              />
 
               {/* Model Usage (Locked) */}
               <ChartCard
                 title="Model Usage Analytics"
-                locked
+                locked={!isPremium}
                 onUnlock={() => handleUnlock("Model Usage Analytics")}
               >
                 <ResponsiveContainer width="100%" height={240}>
@@ -364,7 +376,7 @@ export default function Dashboard() {
             {/* Latency Heatmap (Locked) */}
             <ChartCard
               title="Latency Heatmap by Region"
-              locked
+              locked={!isPremium}
               onUnlock={() => handleUnlock("Latency Heatmap")}
             >
               <div className="h-[200px] flex items-center justify-center text-muted-foreground">
