@@ -21,6 +21,7 @@ import {
   Loader2,
   ArrowRight,
   Info,
+  Download,
 } from "lucide-react";
 
 type ValidationStatus = "idle" | "loading" | "success" | "error" | "not-found";
@@ -322,8 +323,28 @@ export default function Validate() {
                   <Button variant="outline" className="flex-1">
                     View Full Details
                   </Button>
-                  <Button variant="premium" className="flex-1">
-                    Download Evidence (0.001 ETH)
+                  <Button
+                    variant="premium"
+                    className="flex-1"
+                    onClick={() => {
+                      if (!localStorage.getItem("x402_premium")) {
+                        window.location.href = "/pricing";
+                      } else {
+                        toast({
+                          title: "Downloading...",
+                          description: "Retrieving verified evidence bundle.",
+                        });
+                      }
+                    }}
+                  >
+                    {localStorage.getItem("x402_premium") ? (
+                      <>
+                        <Download className="h-4 w-4 mr-2" />
+                        Download Bundle
+                      </>
+                    ) : (
+                      "Download Evidence (0.001 ETH)"
+                    )}
                   </Button>
                 </div>
               </CardContent>

@@ -1,6 +1,6 @@
 import { createAppKit } from "@reown/appkit/react";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
-import { type AppKitNetwork, mainnet, arbitrum } from "@reown/appkit/networks";
+import { type AppKitNetwork, sepolia } from "@reown/appkit/networks";
 import { QueryClient } from "@tanstack/react-query";
 
 // 1. Get projectId from https://cloud.reown.com
@@ -15,10 +15,8 @@ export const metadata = {
 };
 
 // 3. Set the networks
-export const networks = [mainnet, arbitrum] as [
-  AppKitNetwork,
-  ...AppKitNetwork[]
-];
+// 3. Set the networks
+export const networks = [sepolia] as [AppKitNetwork, ...AppKitNetwork[]];
 
 // 4. Create Wagmi Adapter
 export const wagmiAdapter = new WagmiAdapter({

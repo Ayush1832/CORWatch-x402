@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +7,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Lock, Download, CheckCircle, AlertTriangle, XCircle, Copy, ExternalLink } from "lucide-react";
+import {
+  Lock,
+  Download,
+  CheckCircle,
+  AlertTriangle,
+  XCircle,
+  Copy,
+  ExternalLink,
+} from "lucide-react";
 import type { Session } from "@/components/dashboard/SessionsTable";
-import { PaymentModal } from "./PaymentModal";
 import { useToast } from "@/hooks/use-toast";
 
 interface SessionDetailModalProps {
@@ -27,8 +33,11 @@ const mockValidators = [
   { address: "0x7q8r...9s0t", score: 96.3, agreed: true },
 ];
 
-export function SessionDetailModal({ session, open, onOpenChange }: SessionDetailModalProps) {
-  const [paymentOpen, setPaymentOpen] = useState(false);
+export function SessionDetailModal({
+  session,
+  open,
+  onOpenChange,
+}: SessionDetailModalProps) {
   const { toast } = useToast();
 
   if (!session) return null;
@@ -39,11 +48,6 @@ export function SessionDetailModal({ session, open, onOpenChange }: SessionDetai
       title: "Copied",
       description: "Session ID copied to clipboard",
     });
-  };
-
-  const handlePayment = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    return Math.random() > 0.3;
   };
 
   return (
@@ -74,8 +78,15 @@ export function SessionDetailModal({ session, open, onOpenChange }: SessionDetai
               <div className="bg-secondary/30 rounded-lg p-4">
                 <p className="text-xs text-muted-foreground mb-1">Session ID</p>
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-sm truncate">{session.id}</span>
-                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={copySessionId}>
+                  <span className="font-mono text-sm truncate">
+                    {session.id}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6"
+                    onClick={copySessionId}
+                  >
                     <Copy className="h-3 w-3" />
                   </Button>
                 </div>
@@ -128,38 +139,65 @@ export function SessionDetailModal({ session, open, onOpenChange }: SessionDetai
                       ) : (
                         <XCircle className="h-4 w-4 text-destructive" />
                       )}
-                      <span className="font-mono text-sm">{validator.address}</span>
+                      <span className="font-mono text-sm">
+                        {validator.address}
+                      </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Badge variant={validator.agreed ? "success" : "destructive"}>
+                      <Badge
+                        variant={validator.agreed ? "success" : "destructive"}
+                      >
                         {validator.agreed ? "Agreed" : "Disputed"}
                       </Badge>
-                      <span className="font-mono text-sm font-medium">{validator.score}</span>
+                      <span className="font-mono text-sm font-medium">
+                        {validator.score}
+                      </span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Evidence Download (Locked) */}
-            <div className="bg-secondary/30 rounded-lg p-4 relative">
-              <div className="absolute inset-0 bg-background/60 backdrop-blur-sm rounded-lg flex items-center justify-center z-10">
-                <div className="text-center">
-                  <Lock className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground mb-2">Evidence bundle locked</p>
-                  <Button variant="premium" size="sm" onClick={() => setPaymentOpen(true)}>
-                    Unlock for 0.001 ETH
-                  </Button>
+            {/* Evidence Download (Premium Feature) */}
+            <div
+              className={`bg-secondary/30 rounded-lg p-4 relative ${
+                !localStorage.getItem("x402_premium") ? "overflow-hidden" : ""
+              }`}
+            >
+              {!localStorage.getItem("x402_premium") && (
+                <div className="absolute inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center z-10">
+                  <div className="text-center p-4">
+                    <Lock className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Evidence bundle locked
+                    </p>
+                    <Button
+                      variant="premium"
+                      size="sm"
+                      onClick={() => (window.location.href = "/pricing")}
+                    >
+                      Unlock with x402
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center justify-between opacity-50">
+              )}
+              <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">Download Evidence Bundle</p>
                   <p className="text-sm text-muted-foreground">
                     Full PoI/PoUW artifacts, validator signatures, merkle proofs
                   </p>
                 </div>
-                <Button variant="outline" disabled>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    toast({
+                      title: "Downloading Evidence...",
+                      description: "Fetching secure artifacts from IPFS.",
+                    });
+                  }}
+                  disabled={!localStorage.getItem("x402_premium")}
+                >
                   <Download className="h-4 w-4 mr-2" />
                   Download
                 </Button>
@@ -180,14 +218,6 @@ export function SessionDetailModal({ session, open, onOpenChange }: SessionDetai
           </div>
         </DialogContent>
       </Dialog>
-
-      <PaymentModal
-        open={paymentOpen}
-        onOpenChange={setPaymentOpen}
-        feature="Evidence Bundle Download"
-        price="0.001 ETH"
-        onPayment={handlePayment}
-      />
     </>
   );
 }

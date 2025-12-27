@@ -5,7 +5,8 @@ import { Activity, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAppKit } from "@reown/appkit/react";
-import { useAccount } from "wagmi";
+import { useAccount, useBalance } from "wagmi";
+import { formatEther } from "viem";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -20,6 +21,9 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { open } = useAppKit();
   const { address, isConnected } = useAccount();
+  const { data: balanceResult } = useBalance({
+    address,
+  });
 
   const handleConnect = () => {
     if (isConnected) {
@@ -27,6 +31,16 @@ export function Header() {
     } else {
       open({ view: "Connect" });
     }
+  };
+
+  const formatAddress = (addr: string) => {
+    return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+  };
+
+  const formatBalance = () => {
+    if (!balanceResult) return "";
+    const formatted = formatEther(balanceResult.value);
+    return `${Number(formatted).toFixed(4)} ${balanceResult.symbol}`;
   };
 
   return (
@@ -63,9 +77,15 @@ export function Header() {
 
         <div className="hidden md:flex items-center gap-3">
           <Button variant="outline" size="sm" onClick={handleConnect}>
-            {isConnected && address
-              ? `${address.slice(0, 6)}...${address.slice(-4)}`
-              : "Connect Wallet"}
+            {isConnected && address ? (
+              <span className="flex items-center gap-2">
+                <span className="font-mono text-xs">{formatBalance()}</span>
+                <span className="opacity-50">|</span>
+                <span>{formatAddress(address)}</span>
+              </span>
+            ) : (
+              "Connect Wallet"
+            )}
           </Button>
         </div>
 
@@ -107,9 +127,15 @@ export function Header() {
               className="mt-2"
               onClick={handleConnect}
             >
-              {isConnected && address
-                ? `${address.slice(0, 6)}...${address.slice(-4)}`
-                : "Connect Wallet"}
+              {isConnected && address ? (
+                <span className="flex items-center gap-2">
+                  <span className="font-mono text-xs">{formatBalance()}</span>
+                  <span className="opacity-50">|</span>
+                  <span>{formatAddress(address)}</span>
+                </span>
+              ) : (
+                "Connect Wallet"
+              )}
             </Button>
           </nav>
         </div>
