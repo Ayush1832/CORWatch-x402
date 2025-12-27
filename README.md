@@ -17,19 +17,19 @@ The system bridges a React frontend with a Node.js backend using cryptographic s
 
 ```mermaid
 graph TD
-    User[User / Agent] -->|1. Connect Wallet| FE[Frontend (React + Wagmi)]
-    FE -->|2. Request Validation| Sig[Sign Message: 'Authorize 0.001 ETH...']
-    Sig -->|3. x-402-payment Header| API[Backend API]
+    User["User / Agent"] -->|1. Connect Wallet| FE["Frontend (React + Wagmi)"]
+    FE -->|2. Request Validation| Sig["Sign Message: 'Authorize 0.001 ETH...'"]
+    Sig -->|3. x-402-payment Header| API["Backend API"]
 
     subgraph "Backend Infrastructure"
-        API -->|4. Verify Signature (ethers)| Auth[x402 Middleware]
-        Auth -->|5. If Valid| Logic[Validation Logic]
-        Logic -->|6. Deterministic Check| Result[Verification Result]
+        API -->|4. Verify Signature (ethers)| Auth["x402 Middleware"]
+        Auth -->|5. If Valid| Logic["Validation Logic"]
+        Logic -->|6. Deterministic Check| Result["Verification Result"]
     end
 
     subgraph "Data Ingestion"
-        Explorer[Cortensor Testnet-1 Explorer] -->|Poll Stats| Ingest[Cortensor Ingestion]
-        Ingest -->|Stream| Dash[Dashboard Metrics]
+        Explorer["Cortensor Testnet-1 Explorer"] -->|Poll Stats| Ingest["Cortensor Ingestion"]
+        Ingest -->|Stream| Dash["Dashboard Metrics"]
     end
 ```
 
