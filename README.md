@@ -9,7 +9,7 @@
 ## 🎥 Demo & Repository
 
 - **Repository**: [https://github.com/Ayush1832/CORWatch-x402](https://github.com/Ayush1832/CORWatch-x402)
-- **Live Demo**: _Run locally via steps below_
+- **Live Demo**: [https://cor-watch-x402.vercel.app/](https://cor-watch-x402.vercel.app/)
 
 ## 🏗️ Architecture
 
