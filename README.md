@@ -86,16 +86,7 @@ The `/validate` endpoint provides transparent, deterministic verification of ses
 - **x402 Implementation**:
   - Authentication is **not** based on cookies/JWTs.
   - Authentication is based on a **cryptographic signature** of the intent passed in the `x-402-payment` HTTP header.
-
-## 🤖 For Agents: Tool & Safety
-
-Design for autonomous agents (e.g. via LangChain/Autogen) to interact with CORWatch.
-
-### Action List
-
-1.  **`check_network_status`**: GET `/api/v2/stats` (via Cortensor Explorer integration).
-2.  **`validate_session`**: POST `/validate` with `{ sessionId: "..." }`.
-    - _Requires_: `x-402-payment` header containing ECDSA signature.
+    
 
 ### Safety Guardrails
 
