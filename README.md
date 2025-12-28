@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="frontend/public/images/logo.png" alt="CORWatch Logo" width="120" />
+</div>
+
 # CORWatch x402 🛡️
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
